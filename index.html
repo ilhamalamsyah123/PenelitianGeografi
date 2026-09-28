@@ -1,0 +1,2023 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif Geografi - Penelitian Geografi Kelas X</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Config & CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        geo: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                            dark: '#0b192c',
+                            card: '#1e293b'
+                        },
+                        ocean: {
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['Cinzel', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #080f1e;
+            color: #f1f5f9;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        /* Aspect ratio 16:9 / 19:6 container container optimization */
+        .app-viewport {
+            width: 100vw;
+            height: 100vh;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-image: linear-gradient(rgba(7, 17, 30, 0.58), rgba(7, 17, 30, 0.72)), url('asets/LB1.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* Glassmorphism effects */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(34, 197, 94, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #22c55e;
+            border-radius: 9999px;
+        }
+
+        /* Animation Keyframes */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.03); }
+        }
+
+        .animate-glow {
+            animation: pulseGlow 4s infinite ease-in-out;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .title-logo {
+            width: 100%;
+            max-width: 620px;
+            height: auto;
+            margin: 0 auto;
+            animation: titleFloat 3.5s ease-in-out infinite;
+            mix-blend-mode: multiply;
+        }
+
+        .slide-one-layout {
+            display: grid;
+            grid-template-columns: minmax(130px, 1fr) minmax(280px, 2.2fr) minmax(130px, 1fr);
+            align-items: center;
+            gap: clamp(1rem, 4vw, 4rem);
+        }
+
+        .slide-one-photo {
+            width: 100%;
+            object-fit: cover;
+            border: 2px solid rgba(52, 211, 153, 0.45);
+            border-radius: 1.25rem;
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.3), 0 0 20px rgba(34, 197, 94, 0.14);
+            opacity: 0.9;
+        }
+
+        .slide-one-photo.left {
+            aspect-ratio: 3 / 4;
+            object-position: center 42%;
+        }
+
+        .slide-one-photo.right {
+            aspect-ratio: 999 / 1119;
+            object-position: center 38%;
+        }
+
+        @media (max-width: 767px) {
+            .slide-one-layout {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .slide-one-center {
+                grid-column: 1 / -1;
+                grid-row: 1;
+            }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .title-logo {
+                animation: none;
+            }
+        }
+
+        .slide-six {
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+            gap: 0.75rem;
+        }
+
+        .slide-six .slide-six-actions {
+            padding: 0.65rem 1rem;
+            gap: 0.5rem;
+        }
+
+        .slide-six .slide-six-actions button {
+            white-space: nowrap;
+        }
+
+        .slide-six #certificate-print-area {
+            padding: 1rem 1.25rem;
+            border-width: 4px;
+        }
+
+        .slide-six #certificate-print-area .relative > :not([hidden]) ~ :not([hidden]) {
+            margin-top: 0.5rem;
+        }
+
+        .slide-six #certificate-print-area .my-4 {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.6rem;
+        }
+
+        .slide-six #certificate-print-area .pt-6 {
+            padding-top: 0.75rem;
+        }
+
+        @media (max-height: 800px) {
+            .slide-six #certificate-print-area {
+                padding: 0.65rem 1rem;
+            }
+
+            .slide-six #certificate-print-area h1 {
+                font-size: 1.5rem;
+            }
+
+            .slide-six #certificate-print-area h2 {
+                font-size: 1.35rem;
+            }
+
+            .slide-six #certificate-print-area .pt-6 {
+                padding-top: 0.35rem;
+            }
+        }
+
+        .slide-two {
+            max-width: 760px;
+        }
+
+        .slide-two-panel {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(125deg, rgba(241, 91, 87, 0.54), rgba(26, 132, 207, 0.68) 62%, rgba(26, 191, 210, 0.62));
+            border: 2px solid rgba(255, 132, 118, 0.65);
+            box-shadow: 0 0 28px rgba(255, 109, 101, 0.34), 0 20px 45px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .slide-two-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 14% 8%, rgba(255, 173, 133, 0.28), transparent 34%), radial-gradient(circle at 88% 90%, rgba(45, 235, 220, 0.2), transparent 38%);
+            pointer-events: none;
+        }
+
+        .slide-two-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide-two-field {
+            background: rgba(225, 238, 255, 0.28) !important;
+            border-color: rgba(224, 239, 255, 0.62) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+        }
+
+        .slide-two-field:focus {
+            background: rgba(235, 247, 255, 0.4) !important;
+            border-color: rgba(190, 255, 247, 0.95) !important;
+        }
+
+        .slide-two-avatar {
+            min-height: 116px;
+            background: rgba(225, 238, 255, 0.25) !important;
+            border-color: rgba(224, 239, 255, 0.65);
+            box-shadow: 0 8px 20px rgba(15, 43, 91, 0.16);
+        }
+
+        .slide-two-avatar:hover {
+            border-color: rgba(190, 255, 135, 0.9);
+        }
+
+        .slide-two-avatar-image {
+            width: 96px;
+            height: 96px;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .slide-two-avatar.border-emerald-500 {
+            border-color: #c6ff42 !important;
+            background: rgba(193, 255, 61, 0.2) !important;
+            box-shadow: 0 0 10px rgba(193, 255, 61, 0.65), 0 0 24px rgba(193, 255, 61, 0.38), 0 8px 20px rgba(15, 43, 91, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .slide-two-submit {
+            background: linear-gradient(90deg, #b7ff32, #1ed4bb) !important;
+            color: #08231d !important;
+            box-shadow: 0 8px 22px rgba(152, 255, 52, 0.28);
+        }
+
+        .slide-three-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.7rem;
+            color: #d9f99d;
+            text-shadow: 0 0 18px rgba(74, 222, 128, 0.42), 0 3px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide-three-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 76px;
+            height: 3px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #b7ff32, #1ed4bb);
+            box-shadow: 0 0 14px rgba(30, 212, 187, 0.55);
+            transform: translateX(-50%);
+        }
+
+        .slide-three-objectives {
+            align-items: stretch;
+        }
+
+        .slide-three-objective {
+            position: relative;
+            isolation: isolate;
+            --goal-accent: #c7f77b;
+            --goal-edge: rgba(108, 232, 150, 0.58);
+            --goal-badge: rgba(132, 204, 22, 0.2);
+            --goal-glow: rgba(74, 222, 128, 0.2);
+            min-height: 170px;
+            padding: 1.35rem;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(16, 73, 65, 0.92), rgba(7, 34, 49, 0.94) 76%);
+            border: 1px solid var(--goal-edge);
+            box-shadow: 0 14px 30px rgba(2, 16, 31, 0.28), 0 0 18px var(--goal-glow);
+            transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+            animation: objectiveEnter 520ms ease both;
+        }
+
+        .slide-three-objective::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 1.35rem;
+            right: 1.35rem;
+            height: 3px;
+            border-radius: 0 0 999px 999px;
+            background: linear-gradient(90deg, transparent, var(--goal-accent), transparent);
+            box-shadow: 0 0 12px var(--goal-glow);
+        }
+
+        .slide-three-objective:hover {
+            transform: translateY(-5px);
+            border-color: var(--goal-accent);
+            box-shadow: 0 18px 32px rgba(2, 16, 31, 0.34), 0 0 28px var(--goal-glow);
+        }
+
+        .slide-three-objective:nth-child(2) {
+            animation-delay: 100ms;
+        }
+
+        .slide-three-objective:nth-child(3) {
+            animation-delay: 200ms;
+        }
+
+        .slide-three-objective:nth-child(2) {
+            --goal-accent: #8ceaff;
+            --goal-edge: rgba(66, 203, 242, 0.62);
+            --goal-badge: rgba(14, 165, 233, 0.22);
+            --goal-glow: rgba(56, 189, 248, 0.22);
+            background: linear-gradient(145deg, rgba(12, 67, 100, 0.94), rgba(7, 34, 57, 0.94) 76%);
+        }
+
+        .slide-three-objective:nth-child(3) {
+            --goal-accent: #ffd27a;
+            --goal-edge: rgba(255, 190, 89, 0.6);
+            --goal-badge: rgba(245, 158, 11, 0.22);
+            --goal-glow: rgba(251, 146, 60, 0.2);
+            background: linear-gradient(145deg, rgba(112, 69, 35, 0.82), rgba(45, 38, 36, 0.94) 76%);
+        }
+
+        .slide-three-objective-number {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--goal-edge);
+            background: var(--goal-badge);
+            color: var(--goal-accent);
+            box-shadow: 0 0 16px var(--goal-glow), 0 6px 18px rgba(0, 0, 0, 0.2);
+            flex: 0 0 48px;
+        }
+
+        .slide-three-objective h3 {
+            color: var(--goal-accent);
+        }
+
+        @keyframes objectiveEnter {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-three-roadmap {
+            background: rgba(5, 22, 38, 0.72);
+            border-color: rgba(100, 220, 214, 0.26);
+            box-shadow: 0 12px 28px rgba(2, 16, 31, 0.26);
+        }
+
+        .slide-three-pillar {
+            min-height: 132px;
+            background: rgba(7, 27, 44, 0.76);
+            border: 1px solid rgba(127, 205, 221, 0.24);
+            transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease;
+        }
+
+        .slide-three-pillar:nth-child(1) {
+            background: linear-gradient(145deg, rgba(12, 76, 62, 0.76), rgba(7, 27, 44, 0.9));
+            border-color: rgba(108, 232, 150, 0.4);
+        }
+
+        .slide-three-pillar:nth-child(2) {
+            background: linear-gradient(145deg, rgba(12, 70, 101, 0.78), rgba(7, 27, 44, 0.9));
+            border-color: rgba(66, 203, 242, 0.42);
+        }
+
+        .slide-three-pillar:nth-child(3) {
+            background: linear-gradient(145deg, rgba(105, 67, 35, 0.72), rgba(31, 35, 39, 0.92));
+            border-color: rgba(255, 190, 89, 0.38);
+        }
+
+        .slide-three-pillar:hover {
+            transform: translateY(-3px);
+            background: rgba(9, 43, 61, 0.92);
+            border-color: rgba(117, 235, 204, 0.62);
+        }
+
+        .slide-three-continue {
+            background: linear-gradient(100deg, #b7ff32, #1ed4bb) !important;
+            color: #08231d !important;
+            box-shadow: 0 8px 24px rgba(60, 236, 163, 0.3);
+        }
+
+        @keyframes gamePanelEnter {
+            from { opacity: 0; transform: translateY(10px) scale(0.99); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes rewardPulse {
+            0%, 100% { text-shadow: 0 0 12px rgba(74, 222, 128, 0.24); }
+            50% { text-shadow: 0 0 24px rgba(190, 255, 95, 0.72); }
+        }
+
+        #slide-4 .mat-tab-btn {
+            border: 1px solid rgba(120, 193, 216, 0.2);
+            box-shadow: 0 5px 14px rgba(0, 0, 0, 0.14);
+            transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+        }
+
+        #slide-4 .mat-tab-btn.bg-emerald-500 {
+            border-color: rgba(190, 255, 95, 0.9);
+            background: linear-gradient(100deg, #b7ff32, #1ed4bb) !important;
+            color: #08231d !important;
+            box-shadow: 0 0 18px rgba(86, 238, 174, 0.3);
+        }
+
+        #slide-4 .mat-tab-btn:not(.bg-emerald-500):hover {
+            transform: translateY(-2px);
+            border-color: rgba(114, 230, 222, 0.68);
+            box-shadow: 0 8px 20px rgba(9, 119, 148, 0.2);
+        }
+
+        #slide-4 .mat-tab-content:not(.hidden) {
+            animation: gamePanelEnter 300ms ease both;
+        }
+
+        #slide-4 .mat-tab-content .glass-panel {
+            border-color: rgba(90, 217, 208, 0.32);
+            box-shadow: 0 12px 26px rgba(2, 18, 34, 0.24);
+        }
+
+        #slide-4 .glass-card:hover {
+            border-color: rgba(137, 255, 115, 0.7);
+            box-shadow: 0 12px 26px rgba(30, 195, 162, 0.2);
+        }
+
+        #slide-5 > .glass-panel:first-child {
+            border-color: rgba(88, 217, 197, 0.42);
+            background: linear-gradient(110deg, rgba(7, 41, 57, 0.88), rgba(22, 54, 72, 0.84) 68%, rgba(92, 62, 30, 0.72));
+            box-shadow: 0 12px 28px rgba(0, 12, 28, 0.3), 0 0 18px rgba(49, 210, 179, 0.12);
+        }
+
+        #live-total-score {
+            color: #d5ff70;
+            text-shadow: 0 0 14px rgba(196, 255, 80, 0.4);
+        }
+
+        #slide-5 .choice-tone-1 { --choice-edge: #8ff0a2; --choice-fill: rgba(20, 91, 64, 0.88); --choice-glow: rgba(71, 218, 126, 0.18); }
+        #slide-5 .choice-tone-2 { --choice-edge: #79e7ff; --choice-fill: rgba(12, 83, 112, 0.9); --choice-glow: rgba(56, 189, 248, 0.2); }
+        #slide-5 .choice-tone-3 { --choice-edge: #ffd273; --choice-fill: rgba(112, 76, 24, 0.88); --choice-glow: rgba(251, 191, 36, 0.18); }
+        #slide-5 .choice-tone-4 { --choice-edge: #ff9db7; --choice-fill: rgba(112, 43, 70, 0.88); --choice-glow: rgba(244, 114, 182, 0.18); }
+        #slide-5 .choice-tone-5 { --choice-edge: #b7a7ff; --choice-fill: rgba(66, 54, 116, 0.86); --choice-glow: rgba(167, 139, 250, 0.18); }
+        #slide-5 .choice-tone-6 { --choice-edge: #ffbd82; --choice-fill: rgba(117, 66, 35, 0.88); --choice-glow: rgba(251, 146, 60, 0.18); }
+
+        #slide-5 #pg-options-container .choice-tone-1,
+        #slide-5 #pg-options-container .choice-tone-2,
+        #slide-5 #pg-options-container .choice-tone-3,
+        #slide-5 #pg-options-container .choice-tone-4,
+        #slide-5 #pg-options-container .choice-tone-5,
+        #slide-5 #pg-options-container .choice-tone-6,
+        #slide-5 #match-left-col .choice-tone-1,
+        #slide-5 #match-left-col .choice-tone-2,
+        #slide-5 #match-left-col .choice-tone-3,
+        #slide-5 #match-left-col .choice-tone-4,
+        #slide-5 #match-left-col .choice-tone-5,
+        #slide-5 #match-left-col .choice-tone-6,
+        #slide-5 #match-right-col .choice-tone-1,
+        #slide-5 #match-right-col .choice-tone-2,
+        #slide-5 #match-right-col .choice-tone-3,
+        #slide-5 #match-right-col .choice-tone-4,
+        #slide-5 #match-right-col .choice-tone-5,
+        #slide-5 #match-right-col .choice-tone-6,
+        #slide-5 #cat-items-deck .choice-tone-1,
+        #slide-5 #cat-items-deck .choice-tone-2,
+        #slide-5 #cat-items-deck .choice-tone-3,
+        #slide-5 #cat-items-deck .choice-tone-4,
+        #slide-5 #cat-items-deck .choice-tone-5,
+        #slide-5 #cat-items-deck .choice-tone-6 {
+            background: linear-gradient(120deg, var(--choice-fill), rgba(12, 29, 47, 0.94)) !important;
+            border-color: var(--choice-edge) !important;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 0 14px var(--choice-glow);
+        }
+
+        #slide-5 #pg-options-container .choice-tone-1:hover,
+        #slide-5 #pg-options-container .choice-tone-2:hover,
+        #slide-5 #pg-options-container .choice-tone-3:hover,
+        #slide-5 #pg-options-container .choice-tone-4:hover,
+        #slide-5 #pg-options-container .choice-tone-5:hover,
+        #slide-5 #pg-options-container .choice-tone-6:hover {
+            transform: translateY(-2px);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 0 20px var(--choice-glow);
+        }
+
+        #slide-5 .game-tab-btn {
+            border: 1px solid rgba(108, 190, 215, 0.24);
+            transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+        }
+
+        #slide-5 .game-tab-btn.bg-emerald-500 {
+            border-color: rgba(197, 255, 91, 0.85);
+            background: linear-gradient(100deg, #b7ff32, #1ed4bb) !important;
+            color: #08231d !important;
+            box-shadow: 0 0 18px rgba(82, 235, 173, 0.3);
+        }
+
+        #slide-5 .game-tab-btn:not(.bg-emerald-500):hover {
+            transform: translateY(-2px);
+            border-color: rgba(95, 232, 216, 0.7);
+        }
+
+        #slide-5 .game-mode-panel:not(.hidden) {
+            animation: gamePanelEnter 320ms ease both;
+        }
+
+        #slide-5 .game-mode-panel > .glass-panel {
+            border-color: rgba(89, 202, 211, 0.34);
+            box-shadow: 0 16px 32px rgba(0, 12, 26, 0.28);
+        }
+
+        #slide-5 #pg-options-container button {
+            min-height: 54px;
+            background: linear-gradient(120deg, rgba(11, 42, 59, 0.92), rgba(12, 31, 50, 0.94));
+            border-color: rgba(118, 193, 213, 0.3);
+            transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        #slide-5 #pg-options-container button:hover {
+            transform: translateY(-2px);
+            border-color: rgba(169, 255, 98, 0.8);
+            box-shadow: 0 0 18px rgba(57, 217, 173, 0.18);
+        }
+
+        #slide-5 #pg-options-container button.answer-correct {
+            background: linear-gradient(110deg, rgba(22, 126, 81, 0.95), rgba(15, 75, 68, 0.96)) !important;
+            border-color: #a3ff78 !important;
+            color: #ecffdf !important;
+            box-shadow: 0 0 0 2px rgba(163, 255, 120, 0.16), 0 0 22px rgba(78, 236, 137, 0.42);
+        }
+
+        #slide-5 #pg-options-container button.answer-incorrect {
+            background: linear-gradient(110deg, rgba(144, 43, 61, 0.96), rgba(78, 31, 59, 0.96)) !important;
+            border-color: #ff8291 !important;
+            color: #fff0f1 !important;
+            box-shadow: 0 0 0 2px rgba(255, 130, 145, 0.14), 0 0 22px rgba(244, 63, 94, 0.34);
+        }
+
+        #slide-5 #pg-options-container button:disabled {
+            cursor: default;
+            opacity: 1;
+        }
+
+        #slide-5 #match-left-col > div,
+        #slide-5 #match-right-col > div {
+            min-height: 48px;
+            background: linear-gradient(110deg, rgba(9, 42, 61, 0.95), rgba(15, 31, 54, 0.94));
+            border-color: rgba(98, 196, 221, 0.32);
+            transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+        }
+
+        #slide-5 #match-left-col > div.match-selected {
+            transform: translateX(4px);
+            background: linear-gradient(110deg, rgba(8, 127, 160, 0.95), rgba(10, 63, 95, 0.98)) !important;
+            border-color: #7beaff !important;
+            color: #effcff !important;
+            box-shadow: 0 0 0 2px rgba(123, 234, 255, 0.16), 0 0 22px rgba(53, 208, 255, 0.36);
+        }
+
+        #slide-5 #match-right-col > div:not(.pointer-events-none):hover {
+            transform: translateX(-3px);
+            background: linear-gradient(110deg, rgba(12, 98, 133, 0.94), rgba(13, 48, 76, 0.98));
+            border-color: #7beaff;
+            box-shadow: 0 0 18px rgba(53, 208, 255, 0.25);
+        }
+
+        #slide-5 #match-left-col > div.match-wrong-choice,
+        #slide-5 #match-right-col > div.match-wrong-choice {
+            background: linear-gradient(110deg, rgba(144, 43, 61, 0.96), rgba(78, 31, 59, 0.96)) !important;
+            border-color: #ff8291 !important;
+            color: #fff0f1 !important;
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.34);
+        }
+
+        #slide-5 #match-left-col > div.pointer-events-none,
+        #slide-5 #match-right-col > div.pointer-events-none {
+            background: linear-gradient(110deg, rgba(22, 126, 81, 0.95), rgba(15, 75, 68, 0.96)) !important;
+            border-color: #a3ff78 !important;
+            color: #ecffdf !important;
+            box-shadow: 0 0 18px rgba(78, 236, 137, 0.3);
+        }
+
+        #slide-5 #cat-items-deck > div {
+            transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+        }
+
+        #slide-5 #cat-items-deck > div:not(.cat-selected):hover {
+            transform: translateY(-2px);
+            border-color: #ffe17a;
+            box-shadow: 0 0 14px rgba(255, 193, 66, 0.22);
+        }
+
+        #slide-5 #cat-items-deck > div.cat-selected {
+            transform: translateY(-3px);
+            background: linear-gradient(120deg, rgba(181, 126, 13, 0.92), rgba(111, 74, 17, 0.98)) !important;
+            border-color: #ffe17a !important;
+            color: #fffbe8 !important;
+            box-shadow: 0 0 0 2px rgba(255, 225, 122, 0.14), 0 0 22px rgba(255, 193, 66, 0.34);
+        }
+
+        #slide-5 #cat-items-deck > div.cat-incorrect {
+            background: linear-gradient(110deg, rgba(144, 43, 61, 0.96), rgba(78, 31, 59, 0.96)) !important;
+            border-color: #ff8291 !important;
+            color: #fff0f1 !important;
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.34);
+        }
+
+        #slide-5 .cat-bucket {
+            transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+        }
+
+        #slide-5 .cat-bucket:hover {
+            transform: translateY(-3px);
+            background-color: rgba(10, 54, 66, 0.8);
+            box-shadow: 0 0 20px rgba(63, 221, 182, 0.16);
+        }
+
+        #slide-5 .cat-bucket.bucket-target {
+            transform: translateY(-3px);
+            background: linear-gradient(145deg, rgba(83, 91, 18, 0.62), rgba(15, 51, 54, 0.88));
+            border-color: #d7ff64 !important;
+            box-shadow: 0 0 0 2px rgba(215, 255, 100, 0.12), 0 0 24px rgba(170, 235, 73, 0.32);
+        }
+
+        #slide-6 .slide-six-actions {
+            border-color: rgba(106, 222, 190, 0.34);
+            background: linear-gradient(105deg, rgba(8, 37, 50, 0.88), rgba(21, 41, 58, 0.84));
+        }
+
+        #slide-6 #certificate-print-area {
+            background: linear-gradient(145deg, rgba(10, 35, 46, 0.98), rgba(17, 27, 47, 0.98) 54%, rgba(53, 40, 25, 0.96));
+            box-shadow: 0 0 30px rgba(71, 223, 172, 0.16), 0 22px 44px rgba(0, 0, 0, 0.34);
+        }
+
+        #cert-final-score {
+            color: #d5ff70;
+            animation: rewardPulse 2.6s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #slide-4 .mat-tab-content:not(.hidden),
+            #slide-5 .game-mode-panel:not(.hidden),
+            #cert-final-score {
+                animation: none;
+            }
+
+            #slide-4 .mat-tab-btn,
+            #slide-5 .game-tab-btn,
+            #slide-5 #pg-options-container button,
+            #slide-5 .cat-bucket {
+                transition: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .slide-three-objective,
+            .slide-three-pillar {
+                animation: none;
+                transition: none;
+            }
+        }
+
+        @keyframes companionBob {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-6px) rotate(2deg); }
+        }
+
+        .avatar-companion {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            z-index: 25;
+            width: 104px;
+            height: 92px;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .avatar-companion.hidden {
+            display: none;
+        }
+
+        .avatar-companion-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            animation: companionBob 2s ease-in-out infinite;
+        }
+
+        .avatar-companion-active main {
+            padding-top: 6.25rem;
+        }
+
+        @media (max-width: 640px) {
+            .avatar-companion {
+                top: 0;
+                width: 82px;
+                height: 72px;
+            }
+
+            .avatar-companion-active main {
+                padding-top: 5.25rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .avatar-companion-image {
+                animation: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .slide-two-panel {
+                padding: 1.25rem !important;
+            }
+
+            .slide-two-avatar {
+                min-height: 92px;
+            }
+
+            .slide-two-avatar-image {
+                width: 72px;
+                height: 72px;
+            }
+        }
+
+        /* Matching Line Canvas */
+        #match-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* PRINT MEDIA STYLES FOR PDF CERTIFICATE */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #certificate-print-area, #certificate-print-area * {
+                visibility: visible;
+            }
+            #certificate-print-area {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100vw;
+                height: 100vh;
+                margin: 0;
+                padding: 0;
+                background: white !important;
+                color: #0f172a !important;
+                z-index: 99999;
+                display: flex !important;
+                justify-content: center;
+                align-items: center;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between select-none">
+
+    <div class="app-viewport relative overflow-hidden flex flex-col min-h-screen" id="app-viewport">
+        <audio id="background-music" src="asets/SOUND.mp3" loop preload="auto"></audio>
+        <audio id="game-button-sound" src="asets/TKN.mp3" preload="auto"></audio>
+        <audio id="correct-answer-sound" src="asets/BNR.mp3" preload="auto"></audio>
+        <audio id="wrong-answer-sound" src="asets/SLH.mp3" preload="auto"></audio>
+        <audio id="section-complete-sound" src="asets/SLS.mp3" preload="auto"></audio>
+        
+        <!-- Top Navigation Bar -->
+        <header class="px-4 py-3 md:px-8 flex items-center justify-between z-30 shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid me-0 fa-earth-asia text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-sm md:text-base text-slate-100 leading-tight">GEO-RESEARCH INTERACTIVE</h1>
+                    <p class="text-xs text-emerald-400 font-medium">Geografi Kelas X SMA - Fase E</p>
+                </div>
+            </div>
+
+            <!-- Fullscreen & Sound Controls -->
+            <div class="flex items-center space-x-2">
+                <button id="sound-btn" onclick="toggleAudio()" class="w-9 h-9 rounded-lg glass-card flex items-center justify-center text-slate-300 hover:text-emerald-400 transition" title="Toggle Suara">
+                    <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                </button>
+                <button onclick="toggleFullscreen()" class="w-9 h-9 rounded-lg glass-card flex items-center justify-center text-slate-300 hover:text-emerald-400 transition" title="Layar Penuh (Smartboard)">
+                    <i class="fa-solid fa-expand"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Slide Container Frame -->
+        <main class="flex-1 relative overflow-y-auto overflow-x-hidden p-4 md:p-6 lg:p-8 flex items-center justify-center">
+
+            <!-- ================= SLIDE 1: JUDUL & IDENTITAS MATERI ================= -->
+            <section id="slide-1" class="slide-content w-full max-w-6xl mx-auto py-4">
+                <div class="slide-one-layout">
+                    <img src="asets/ILHAM.jpeg" alt="Foto Ilham" class="slide-one-photo left">
+
+                    <div class="slide-one-center flex flex-col items-center gap-8 text-center">
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                            <img src="asets/JD.png" alt="Penelitian Geografi" class="title-logo">
+                        </h1>
+                        <button onclick="nextSlide()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-slate-950 font-bold text-base shadow-lg shadow-emerald-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3">
+                            <span>Mulai Pembelajaran</span>
+                            <i class="fa-solid fa-circle-arrow-right text-lg"></i>
+                        </button>
+                    </div>
+
+                    <img src="asets/PAK%20DION.jpg" alt="Foto Pak Dion" class="slide-one-photo right">
+                </div>
+            </section>
+
+            <!-- ================= SLIDE 2: INPUT IDENTITAS MURID ================= -->
+            <section id="slide-2" class="slide-content slide-two hidden w-full mx-auto py-4">
+                <div class="slide-two-panel rounded-3xl p-6 md:p-8 space-y-6">
+                    <div class="slide-two-content text-center space-y-2">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-id-card"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white">Identitas Peserta Didik</h2>
+                    </div>
+
+                    <form id="identity-form" onsubmit="saveStudentIdentity(event)" class="slide-two-content space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Nama Lengkap Murid *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <input type="text" id="input-nama" required placeholder="Contoh: Ahmad Rizky" 
+                                    class="slide-two-field w-full pl-10 pr-4 py-3 rounded-xl focus:ring-2 focus:ring-emerald-500 text-white placeholder-slate-200 text-sm transition">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Kelas *</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
+                                        <i class="fa-solid fa-school-flag"></i>
+                                    </span>
+                                    <input type="text" id="input-kelas" required placeholder="Contoh: X-1 / X IPS 2" 
+                                    class="slide-two-field w-full pl-10 pr-4 py-3 rounded-xl focus:ring-2 focus:ring-emerald-500 text-white placeholder-slate-200 text-sm transition">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Asal Sekolah *</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
+                                        <i class="fa-solid fa-building-columns"></i>
+                                    </span>
+                                    <input type="text" id="input-sekolah" required placeholder="Contoh: SMAN 1 Indonesia" 
+                                    class="slide-two-field w-full pl-10 pr-4 py-3 rounded-xl focus:ring-2 focus:ring-emerald-500 text-white placeholder-slate-200 text-sm transition">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Avatar Selection -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Pilih Avatar Peneliti</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <button type="button" onclick="selectAvatar(1)" id="avatar-1" class="avatar-option slide-two-avatar p-3 rounded-xl border-2 border-emerald-500 flex flex-col items-center gap-1 hover:border-emerald-400 transition">
+                                    <img src="asets/AVT1.png" alt="Karakter avatar 1" class="slide-two-avatar-image">
+                                </button>
+                                <button type="button" onclick="selectAvatar(2)" id="avatar-2" class="avatar-option slide-two-avatar p-3 rounded-xl border-2 border-slate-700 flex flex-col items-center gap-1 hover:border-emerald-400 transition">
+                                    <img src="asets/AVT2.png" alt="Karakter avatar 2" class="slide-two-avatar-image">
+                                </button>
+                                <button type="button" onclick="selectAvatar(3)" id="avatar-3" class="avatar-option slide-two-avatar p-3 rounded-xl border-2 border-slate-700 flex flex-col items-center gap-1 hover:border-emerald-400 transition">
+                                    <img src="asets/AVT3.png" alt="Karakter avatar 3" class="slide-two-avatar-image">
+                                </button>
+                                <button type="button" onclick="selectAvatar(4)" id="avatar-4" class="avatar-option slide-two-avatar p-3 rounded-xl border-2 border-slate-700 flex flex-col items-center gap-1 hover:border-emerald-400 transition">
+                                    <img src="asets/AVT4.png" alt="Karakter avatar 4" class="slide-two-avatar-image">
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="slide-two-submit w-full py-3.5 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2">
+                            <span>Simpan Identitas & Lanjutkan</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ================= SLIDE 3: TUJUAN PEMBELAJARAN & OVERVIEW ================= -->
+            <section id="slide-3" class="slide-content hidden w-full max-w-6xl mx-auto py-2 space-y-6">
+                <div class="text-center space-y-2">
+                    <h2 class="slide-three-title text-2xl sm:text-3xl font-extrabold">TUJUAN PEMBELAJARAN</h2>
+                </div>
+
+                <!-- Learning Objectives Grid -->
+                <div class="slide-three-objectives grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="slide-three-objective rounded-2xl flex items-start gap-4">
+                        <div class="slide-three-objective-number rounded-xl flex items-center justify-center font-extrabold text-xl shrink-0">1</div>
+                        <div>
+                            <h3 class="font-bold text-white text-sm mb-1">Memahami Konsep Dasar</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">Menjelaskan pengertian, sifat-sifat khusus, dan karakteristik ilmiah dari penelitian geografi pada fenomena geosfer.</p>
+                        </div>
+                    </div>
+                    <div class="slide-three-objective rounded-2xl flex items-start gap-4">
+                        <div class="slide-three-objective-number rounded-xl flex items-center justify-center font-extrabold text-xl shrink-0">2</div>
+                        <div>
+                            <h3 class="font-bold text-white text-sm mb-1">Mengidentifikasi Jenis Penelitian</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">Mengklasifikasikan penelitian berdasarkan Tujuan (Eksploratif, Deskriptif, Eksplanatif), Metode, dan Jenis Data.</p>
+                        </div>
+                    </div>
+                    <div class="slide-three-objective rounded-2xl flex items-start gap-4">
+                        <div class="slide-three-objective-number rounded-xl flex items-center justify-center font-extrabold text-xl shrink-0">3</div>
+                        <div>
+                            <h3 class="font-bold text-white text-sm mb-1">Menganalisis Tahapan Penelitian</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">Menyusun urutan sistematis dari perumusan masalah, pengumpulan data, analisis data, hingga penyusunan laporan.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Mindmap / Roadmap Card -->
+                <div class="slide-three-roadmap glass-panel p-6 rounded-3xl border">
+                    <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider mb-4 text-center">
+                        <i class="fa-solid fa-sitemap mr-2"></i> Peta Jalur Pembelajaran Penelitian Geografi
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                        <div class="slide-three-pillar p-4 rounded-xl text-center">
+                            <i class="fa-solid fa-microscope text-2xl text-emerald-400 mb-2"></i>
+                            <h4 class="font-bold text-white text-xs sm:text-sm">Pilar 1: Karakteristik</h4>
+                            <p class="text-[11px] text-slate-400 mt-1">Berbasis fenomena geosfer, penggunaan peta & pendekatan keruangan/ekologi.</p>
+                        </div>
+                        <div class="slide-three-pillar p-4 rounded-xl text-center">
+                            <i class="fa-solid fa-layer-group text-2xl text-cyan-400 mb-2"></i>
+                            <h4 class="font-bold text-white text-xs sm:text-sm">Pilar 2: Klasifikasi Jenis</h4>
+                            <p class="text-[11px] text-slate-400 mt-1">Tujuan (3 jenis), Metode Pelaksanaan (3 jenis), & Bentuk Data (Kualitatif/Kuantitatif).</p>
+                        </div>
+                        <div class="slide-three-pillar p-4 rounded-xl text-center">
+                            <i class="fa-solid fa-list-check text-2xl text-amber-400 mb-2"></i>
+                            <h4 class="font-bold text-white text-xs sm:text-sm">Pilar 3: Tahapan Kerja</h4>
+                            <p class="text-[11px] text-slate-400 mt-1">Alur sistematis dari rumusan masalah geosfer hingga laporan ilmiah.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center pt-2">
+                    <button onclick="nextSlide()" class="slide-three-continue px-8 py-3 rounded-xl font-bold text-sm transition flex items-center gap-2">
+                        <span>Pelajari Uraian Materi Interaktif</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= SLIDE 4: URAIAN MATERI INTERAKTIF ================= -->
+            <section id="slide-4" class="slide-content hidden w-full max-w-6xl mx-auto py-2 space-y-4">
+                
+                <!-- Tab Navigation Buttons -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800">
+                    <button onclick="switchMaterialTab('tab-definisi')" id="btn-tab-definisi" class="mat-tab-btn px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs sm:text-sm whitespace-nowrap transition flex items-center gap-2">
+                        <i class="fa-solid fa-book-open"></i> 1. Definisi & Sifat
+                    </button>
+                    <button onclick="switchMaterialTab('tab-tujuan')" id="btn-tab-tujuan" class="mat-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white font-medium text-xs sm:text-sm whitespace-nowrap transition flex items-center gap-2">
+                        <i class="fa-solid fa-bullseye"></i> 2. Jenis Berdasarkan Tujuan
+                    </button>
+                    <button onclick="switchMaterialTab('tab-metode')" id="btn-tab-metode" class="mat-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white font-medium text-xs sm:text-sm whitespace-nowrap transition flex items-center gap-2">
+                        <i class="fa-solid fa-vial"></i> 3. Metode & Bentuk Data
+                    </button>
+                    <button onclick="switchMaterialTab('tab-langkah')" id="btn-tab-langkah" class="mat-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white font-medium text-xs sm:text-sm whitespace-nowrap transition flex items-center gap-2">
+                        <i class="fa-solid fa-diagram-project"></i> 4. Langkah Penelitian
+                    </button>
+                </div>
+
+                <!-- TAB 1 CONTENT: Definisi & Sifat -->
+                <div id="tab-definisi" class="mat-tab-content space-y-4">
+                    <div class="glass-panel p-5 rounded-2xl border border-slate-700/80">
+                        <h3 class="text-lg font-bold text-emerald-400 mb-2">Pengertian Penelitian Geografi</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            Penelitian Geografi adalah kegiatan ilmiah yang dilakukan secara sistematis untuk memecahkan masalah-masalah <span class="text-emerald-400 font-semibold">geosfer</span> (atmosfer, hidrosfer, litosfer, biosfer, dan antroposfer) dengan menggunakan pendekatan khas geografi, yaitu **Pendekatan Keruangan (Spasial)**, **Pendekatan Lingkungan (Ekologi)**, dan **Pendekatan Kompleks Wilayah**.
+                        </p>
+                    </div>
+
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ciri & Sifat Penelitian Geografi (Klik untuk melihat detail):</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div onclick="toggleCardDetail(this)" class="glass-card p-4 rounded-xl cursor-pointer hover:border-emerald-500/60 transition space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-sm text-white"><i class="fa-solid fa-flask text-emerald-400 mr-2"></i> Ilmiah</span>
+                                <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+                            </div>
+                            <p class="text-xs text-slate-400">Berlandaskan metode ilmiah dan teori ilmu pengetahuan geografi yang rasional.</p>
+                            <div class="hidden detail-text pt-2 border-t border-slate-800 text-[11px] text-emerald-300">
+                                Contoh: Meneliti pola erosi lereng gunung menggunakan perhitungan kemiringan tanah & data curah hujan.
+                            </div>
+                        </div>
+
+                        <div onclick="toggleCardDetail(this)" class="glass-card p-4 rounded-xl cursor-pointer hover:border-emerald-500/60 transition space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-sm text-white"><i class="fa-solid fa-compass text-cyan-400 mr-2"></i> Berbasis Geosfer</span>
+                                <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+                            </div>
+                            <p class="text-xs text-slate-400">Berfokus pada gejala alam & fenomena sosial di permukaan bumi.</p>
+                            <div class="hidden detail-text pt-2 border-t border-slate-800 text-[11px] text-cyan-300">
+                                Mengkaji hubungan antara fenomena fisik (seperti banjir/longsor) dengan aktivitas manusia di daerah sekitarnya.
+                            </div>
+                        </div>
+
+                        <div onclick="toggleCardDetail(this)" class="glass-card p-4 rounded-xl cursor-pointer hover:border-emerald-500/60 transition space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-sm text-white"><i class="fa-solid fa-wrench text-amber-400 mr-2"></i> Memecahkan Masalah</span>
+                                <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+                            </div>
+                            <p class="text-xs text-slate-400">Bertujuan memberi solusi praktis bagi permasalahan tata ruang & lingkungan.</p>
+                            <div class="hidden detail-text pt-2 border-t border-slate-800 text-[11px] text-amber-300">
+                                Contoh: Memberikan rekomendasi mitigasi bencana banjir untuk pemerintah daerah setempat.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2 CONTENT: Berdasarkan Tujuan -->
+                <div id="tab-tujuan" class="mat-tab-content hidden space-y-4">
+                    <div class="glass-panel p-5 rounded-2xl border border-slate-700/80">
+                        <h3 class="text-lg font-bold text-emerald-400 mb-1">Jenis Penelitian Geografi Berdasarkan Tujuan</h3>
+                        <p class="text-xs text-slate-300">Berdasarkan tujuannya, penelitian geografi terbagi menjadi 3 jenis utama:</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-emerald-500 space-y-2">
+                            <div class="text-xs font-bold text-emerald-400 uppercase">1. Eksploratif</div>
+                            <h4 class="font-bold text-white text-base">Penemuan Fenomena Baru</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Bertujuan untuk mendalami atau menggali dasar pengetahuan mengenai fenomena geosfer baru yang belum diketahui banyak orang.
+                            </p>
+                            <div class="p-2.5 rounded-lg bg-slate-900/70 text-[11px] text-slate-400 border border-slate-800">
+                                ðŸ’¡ <strong class="text-slate-200">Contoh:</strong> Mengidentifikasi jenis mikroorganisme baru di sekitar kawah gunung api aktif.
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-cyan-500 space-y-2">
+                            <div class="text-xs font-bold text-cyan-400 uppercase">2. Deskriptif</div>
+                            <h4 class="font-bold text-white text-base">Penjelasan Rinci & Sistematik</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Lanjutan dari eksploratif, bertujuan untuk mendeskripsikan fenomena geosfer secara detail, faktual, dan tersusun rapi.
+                            </p>
+                            <div class="p-2.5 rounded-lg bg-slate-900/70 text-[11px] text-slate-400 border border-slate-800">
+                                ðŸ’¡ <strong class="text-slate-200">Contoh:</strong> Pemetaan persebaran tingkat kerusakan lahan akibat erosi di daerah aliran sungai.
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-l-amber-500 space-y-2">
+                            <div class="text-xs font-bold text-amber-400 uppercase">3. Eksplanatif</div>
+                            <h4 class="font-bold text-white text-base">Uji Hubungan Sebab-Akibat</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Bertujuan menemukan penyebab suatu fenomena geosfer dan menguji hipotesis hubungan antarvariabel.
+                            </p>
+                            <div class="p-2.5 rounded-lg bg-slate-900/70 text-[11px] text-slate-400 border border-slate-800">
+                                ðŸ’¡ <strong class="text-slate-200">Contoh:</strong> Menganalisis pengaruh alih fungsi lahan terhadap frekuensi banjir tahunan.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3 CONTENT: Berdasarkan Metode & Bentuk Data -->
+                <div id="tab-metode" class="mat-tab-content hidden space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Metode Pelaksanaan -->
+                        <div class="glass-panel p-5 rounded-2xl border border-slate-700/80 space-y-3">
+                            <h3 class="text-base font-bold text-emerald-400"><i class="fa-solid fa-map-location-dot mr-2"></i> Berdasarkan Metode Pelaksanaan</h3>
+                            <ul class="space-y-2 text-xs text-slate-300">
+                                <li class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                                    <strong class="text-white block">A. Studi Kasus</strong>
+                                    Penelitian mendalam pada lokasi atau fenomena spesifik melalui lapangan & wawancara.
+                                </li>
+                                <li class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                                    <strong class="text-white block">B. Survei</strong>
+                                    Pengumpulan data sampel dari populasi luas untuk menguji kesimpulan sementara/hipotesis.
+                                </li>
+                                <li class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                                    <strong class="text-white block">C. Eksperimen</strong>
+                                    Penelitian dengan memberikan perlakukan variabel kontrol dan kelompok uji.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Bentuk Data / Metode Penelitian -->
+                        <div class="glass-panel p-5 rounded-2xl border border-slate-700/80 space-y-3">
+                            <h3 class="text-base font-bold text-cyan-400"><i class="fa-solid fa-chart-pie mr-2"></i> Berdasarkan Metode & Bentuk Data</h3>
+                            <div class="grid grid-cols-2 gap-3 text-xs">
+                                <div class="p-3 rounded-xl bg-slate-900/80 border border-cyan-500/30 space-y-1">
+                                    <span class="font-bold text-cyan-400 block text-sm">Kuantitatif</span>
+                                    <p class="text-slate-300 text-[11px]">Menggunakan data angka, pengukuran persentase, statistik, dan angket/kuesioner terstruktur.</p>
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-900/80 border border-purple-500/30 space-y-1">
+                                    <span class="font-bold text-purple-400 block text-sm">Kualitatif</span>
+                                    <p class="text-slate-300 text-[11px]">Menggunakan data narasi deskriptif, hasil wawancara mendalam, dan observasi kualitatif.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4 CONTENT: Langkah Penelitian -->
+                <div id="tab-langkah" class="mat-tab-content hidden space-y-4">
+                    <div class="glass-panel p-5 rounded-2xl border border-slate-700/80">
+                        <h3 class="text-base font-bold text-amber-400 mb-3"><i class="fa-solid fa-list-ol mr-2"></i> 6 Tahapan Utama Langkah Penelitian Geografi</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+                            <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center shrink-0">1</span>
+                                <div>
+                                    <strong class="text-white block">Merumuskan Masalah</strong>
+                                    Menentukan pertanyaan fenomena geosfer (What, Where, Why, How).
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center shrink-0">2</span>
+                                <div>
+                                    <strong class="text-white block">Menentukan Judul & Tujuan</strong>
+                                    Merumuskan judul yang spesifik, padat, dan objektif.
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center shrink-0">3</span>
+                                <div>
+                                    <strong class="text-white block">Kerangka Teori & Hipotesis</strong>
+                                    Menyusun landasan pustaka dan dugaan jawaban sementara.
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center shrink-0">4</span>
+                                <div>
+                                    <strong class="text-white block">Pengumpulan Data</strong>
+                                    Observasi, kuesioner, wawancara, citra satelit/SIG, studi pustaka.
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center shrink-0">5</span>
+                                <div>
+                                    <strong class="text-white block">Pengolahan & Analisis Data</strong>
+                                    Analisis keruangan, analisis ekologi, kualitatif/kuantitatif.
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center shrink-0">6</span>
+                                <div>
+                                    <strong class="text-white block">Menyusun Laporan</strong>
+                                    Menarik kesimpulan dan mendokumentasikan laporan ilmiah.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="prevSlide()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Kembali
+                    </button>
+                    <button onclick="nextSlide()" class="px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 transition flex items-center gap-2">
+                        <span>Lanjut ke Gim Edukasi</span>
+                        <i class="fa-solid fa-gamepad"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= SLIDE 5: GIM EDUKASI INTERAKTIF ================= -->
+            <section id="slide-5" class="slide-content hidden w-full max-w-5xl mx-auto py-2 space-y-4">
+                
+                <!-- Game Header & Score Tracker Bar -->
+                <div class="glass-panel p-4 rounded-2xl border border-slate-700/80 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider">Tantangan Gim Edukasi</span>
+                        <h2 class="text-lg font-bold text-white">Uji Pemahaman Penelitian Geografi</h2>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-trophy text-amber-400 text-base"></i>
+                            <span class="text-xs text-slate-400">Skor Total:</span>
+                            <span id="live-total-score" class="font-extrabold text-base text-emerald-400">0 / 100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Modes Switcher Tabs -->
+                <div class="flex items-center gap-2 border-b border-slate-800 pb-2">
+                    <button onclick="switchGameMode('pg')" id="game-tab-pg" class="game-tab-btn px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs transition flex items-center gap-2">
+                        <i class="fa-solid fa-list-check"></i> Part 1: Pilihan Ganda
+                    </button>
+                    <button onclick="switchGameMode('match')" id="game-tab-match" class="game-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 font-medium text-xs transition flex items-center gap-2">
+                        <i class="fa-solid fa-link"></i> Part 2: Menjodohkan
+                    </button>
+                    <button onclick="switchGameMode('cat')" id="game-tab-cat" class="game-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 font-medium text-xs transition flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group"></i> Part 3: Mengkategorikan
+                    </button>
+                </div>
+
+                <!-- GAME PART 1: PILIHAN GANDA (MCQ) -->
+                <div id="game-mode-pg" class="game-mode-panel space-y-4">
+                    <div class="glass-panel p-5 rounded-2xl border border-slate-700/80 space-y-4">
+                        <div class="flex justify-between items-center text-xs text-slate-400">
+                            <span id="pg-counter">Soal 1 dari 5</span>
+                            <span class="text-emerald-400 font-semibold">Bobot: 7 Poin / Soal</span>
+                        </div>
+                        <h3 id="pg-question-text" class="text-sm sm:text-base font-bold text-white leading-relaxed">
+                            Loading pertanyaan...
+                        </h3>
+                        <div id="pg-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                            <!-- Options injected dynamically -->
+                        </div>
+                        <div id="pg-feedback" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+                    </div>
+                </div>
+
+                <!-- GAME PART 2: MENJODOHKAN (MATCHING PAIRS) -->
+                <div id="game-mode-match" class="game-mode-panel hidden space-y-4 relative">
+                    <div class="glass-panel p-5 rounded-2xl border border-slate-700/80 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-sm font-bold text-white"><i class="fa-solid fa-hand-pointer text-cyan-400 mr-2"></i> Pasangkan Istilah dengan Definisi yang Tepat!</h3>
+                            <span class="text-xs text-cyan-400 font-semibold">Bobot: 35 Poin Total</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Klik satu kartu di kolom Kiri, lalu klik pasangan jawabannya di kolom Kanan.</p>
+
+                        <div class="grid grid-cols-2 gap-4 pt-2 relative min-h-[220px]">
+                            <!-- Left Column: Concepts -->
+                            <div id="match-left-col" class="space-y-2 z-20">
+                                <!-- Dynamic concepts -->
+                            </div>
+                            <!-- Right Column: Definitions -->
+                            <div id="match-right-col" class="space-y-2 z-20">
+                                <!-- Dynamic definitions -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GAME PART 3: MENGKATEGORIKAN (CLASSIFICATION) -->
+                <div id="game-mode-cat" class="game-mode-panel hidden space-y-4">
+                    <div class="glass-panel p-5 rounded-2xl border border-slate-700/80 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-sm font-bold text-white"><i class="fa-solid fa-boxes-stacked text-amber-400 mr-2"></i> Kelompokkan Jenis Penelitian Ini!</h3>
+                            <span class="text-xs text-amber-400 font-semibold">Bobot: 30 Poin Total</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Pilih kartu item di bawah, lalu klik wadah kategori yang sesuai.</p>
+
+                        <!-- Item Deck -->
+                        <div id="cat-items-deck" class="flex flex-wrap gap-2 p-3 bg-slate-900/80 rounded-xl border border-slate-800 min-h-[60px]">
+                            <!-- Draggable/clickable cards -->
+                        </div>
+
+                        <!-- 3 Target Category Buckets -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                            <div onclick="dropCategoryItem('tujuan')" class="cat-bucket p-3 rounded-xl bg-slate-900/60 border-2 border-dashed border-emerald-500/40 hover:border-emerald-400 transition space-y-2 min-h-[120px]">
+                                <h4 class="text-xs font-bold text-emerald-400 text-center uppercase"><i class="fa-solid fa-bullseye mr-1"></i> Berdasarkan Tujuan</h4>
+                                <div id="bucket-tujuan" class="space-y-1"></div>
+                            </div>
+                            <div onclick="dropCategoryItem('metode_pelaksanaan')" class="cat-bucket p-3 rounded-xl bg-slate-900/60 border-2 border-dashed border-cyan-500/40 hover:border-cyan-400 transition space-y-2 min-h-[120px]">
+                                <h4 class="text-xs font-bold text-cyan-400 text-center uppercase"><i class="fa-solid fa-map-pin mr-1"></i> Metode Pelaksanaan</h4>
+                                <div id="bucket-metode_pelaksanaan" class="space-y-1"></div>
+                            </div>
+                            <div onclick="dropCategoryItem('bentuk_data')" class="cat-bucket p-3 rounded-xl bg-slate-900/60 border-2 border-dashed border-amber-500/40 hover:border-amber-400 transition space-y-2 min-h-[120px]">
+                                <h4 class="text-xs font-bold text-amber-400 text-center uppercase"><i class="fa-solid fa-database mr-1"></i> Bentuk Data</h4>
+                                <div id="bucket-bentuk_data" class="space-y-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="prevSlide()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Uraian Materi
+                    </button>
+                    <button onclick="finishGameAndShowCertificate()" class="px-8 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-emerald-500 hover:from-amber-600 hover:to-emerald-600 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 transition flex items-center gap-2">
+                        <span>Kirim & Lihat Sertifikat</span>
+                        <i class="fa-solid fa-award"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= SLIDE 6: SERTIFIKAT & NILAI AKHIR ================= -->
+            <section id="slide-6" class="slide-content slide-six hidden w-full max-w-4xl mx-auto py-2 space-y-6">
+                
+                <!-- Action Header (Hidden in Print) -->
+                <div class="no-print slide-six-actions glass-panel p-4 rounded-2xl border border-slate-700/80 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Hasil Pembelajaran & Sertifikat Digital</h2>
+                        <p class="text-xs text-slate-400">Selamat! Kamu telah menyelesaikan seluruh rangkaian media pembelajaran ini.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="printCertificate()" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20 transition flex items-center gap-2">
+                            <i class="fa-solid fa-print"></i> Cetak / Simpan PDF
+                        </button>
+                        <button onclick="restartAll()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition flex items-center gap-1">
+                            <i class="fa-solid fa-rotate-right"></i> Ulangi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Printable Certificate Container Area -->
+                <div id="certificate-print-area" class="w-full bg-slate-900 rounded-3xl p-6 sm:p-10 border-8 border-double border-emerald-500/40 shadow-2xl relative overflow-hidden text-center text-slate-100">
+                    
+                    <!-- Decorative Certificate Borders -->
+                    <div class="absolute -top-12 -left-12 w-40 h-40 rounded-full bg-emerald-500/10 blur-2xl"></div>
+                    <div class="absolute -bottom-12 -right-12 w-40 h-40 rounded-full bg-cyan-500/10 blur-2xl"></div>
+
+                    <div class="relative z-10 space-y-4">
+                        <!-- Top Header -->
+                        <div class="flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-earth-asia text-3xl text-emerald-400"></i>
+                            <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase">GEO-RESEARCH INTERACTIVE ACADEMY</span>
+                            <i class="fa-solid fa-award text-3xl text-amber-400"></i>
+                        </div>
+
+                        <h1 class="font-serif text-2xl sm:text-4xl font-extrabold text-amber-300 tracking-wider">SERTIFIKAT KOMPETENSI</h1>
+                        <p class="text-xs text-slate-300 uppercase tracking-widest">Diberikan Sebagai Penghargaan Kepada:</p>
+
+                        <!-- Student Name -->
+                        <div class="py-2 border-b-2 border-emerald-500/30 max-w-lg mx-auto">
+                            <h2 id="cert-student-name" class="text-2xl sm:text-3xl font-extrabold text-white">Nama Murid</h2>
+                        </div>
+
+                        <!-- School & Grade -->
+                        <p class="text-xs sm:text-sm text-slate-300">
+                            Kelas: <strong id="cert-student-class" class="text-emerald-400">X-1</strong> | 
+                            Sekolah: <strong id="cert-student-school" class="text-emerald-400">SMAN 1</strong>
+                        </p>
+
+                        <p class="text-xs text-slate-300 max-w-xl mx-auto leading-relaxed pt-2">
+                            Telah berhasil menyelesaikan Modul & Gim Edukasi Interaktif pada materi:<br>
+                            <span class="font-bold text-white text-sm">"Penelitian Geografi dan Jenis-Jenisnya" (Fase E Kelas X SMA)</span>
+                        </p>
+
+                        <!-- Score Badge & Breakdown -->
+                        <div class="my-4 p-4 rounded-2xl bg-slate-950/80 border border-slate-800 max-w-md mx-auto grid grid-cols-2 gap-3 items-center">
+                            <div>
+                                <span class="text-[10px] text-slate-400 block uppercase font-semibold">Nilai Akhir</span>
+                                <span id="cert-final-score" class="text-3xl font-extrabold text-emerald-400">100</span>
+                                <span class="text-xs text-slate-400">/ 100</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 block uppercase font-semibold">Predikat</span>
+                                <span id="cert-predikat" class="text-sm font-bold text-amber-400">SANGAT BAIK</span>
+                            </div>
+                        </div>
+
+                        <!-- Date & Signatures -->
+                        <div class="pt-6 grid grid-cols-2 gap-8 text-left text-xs max-w-md mx-auto">
+                            <div>
+                                <p class="text-slate-400">Tanggal Selesai:</p>
+                                <p id="cert-date" class="font-bold text-slate-200">25 September 2026</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-slate-400">Guru Pengampu:</p>
+                                <p class="font-bold text-emerald-400 mt-6 border-t border-slate-700 pt-1">Guru Geografi Fase E</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <div id="avatar-companion" class="avatar-companion hidden" aria-hidden="true">
+            <img id="avatar-companion-image" src="asets/AVT1.png" alt="" class="avatar-companion-image">
+        </div>
+
+        <!-- Bottom Slide Navigation -->
+        <footer class="px-4 py-3 md:px-8 flex items-center justify-between z-30 shrink-0">
+            <button onclick="prevSlide()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition flex items-center gap-2">
+                <i class="fa-solid fa-chevron-left"></i>
+                <span>Sebelumnya</span>
+            </button>
+            <button onclick="nextSlide()" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs shadow-md transition flex items-center gap-2">
+                <span>Berikutnya</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        /* State Variables */
+        let currentSlide = 1;
+        let soundEnabled = true;
+        let audioCtx = null;
+        let pendingSectionSound = null;
+
+        function startBackgroundMusic() {
+            if (!soundEnabled) return;
+
+            const music = document.getElementById('background-music');
+            if (!music || !music.paused) return;
+
+            const playback = music.play();
+            if (playback) playback.catch(() => {});
+        }
+
+        let studentData = {
+            nama: '',
+            kelas: '',
+            sekolah: '',
+            avatar: 1
+        };
+
+        let scores = {
+            pg: 0,
+            match: 0,
+            cat: 0
+        };
+
+        document.getElementById('app-viewport').addEventListener('click', (event) => {
+            const control = event.target.closest('button, [onclick]');
+            if (!control || control.matches('#pg-options-container button, #match-right-col > div, .cat-bucket')) return;
+            playGameButtonSound();
+        });
+
+        function playGameButtonSound() {
+            playAudioEffect('game-button-sound');
+        }
+
+        function playAudioEffect(audioId) {
+            if (!soundEnabled) return;
+
+            const effect = document.getElementById(audioId);
+            effect.pause();
+            effect.currentTime = 0;
+
+            const playback = effect.play();
+            if (playback) playback.catch(() => {});
+        }
+
+        function stopAudioEffects() {
+            const buttonSound = document.getElementById('game-button-sound');
+            if (pendingSectionSound) {
+                buttonSound.removeEventListener('ended', pendingSectionSound);
+                pendingSectionSound = null;
+            }
+
+            ['game-button-sound', 'correct-answer-sound', 'wrong-answer-sound', 'section-complete-sound'].forEach(audioId => {
+                const effect = document.getElementById(audioId);
+                effect.pause();
+                effect.currentTime = 0;
+            });
+        }
+
+        function playSectionCompleteAfterButton() {
+            if (!soundEnabled) return;
+
+            const buttonSound = document.getElementById('game-button-sound');
+            if (pendingSectionSound) buttonSound.removeEventListener('ended', pendingSectionSound);
+            pendingSectionSound = () => {
+                pendingSectionSound = null;
+                playAudioEffect('section-complete-sound');
+            };
+            buttonSound.addEventListener('ended', pendingSectionSound, { once: true });
+        }
+
+        /* WEB AUDIO SYNTHESIZER FOR SOUND EFFECTS */
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            startBackgroundMusic();
+            initAudio();
+            if (!audioCtx) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, now);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.08);
+            } else if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.setValueAtTime(180, now + 0.15);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'fanfare') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.setValueAtTime(659.25, now + 0.12);
+                osc.frequency.setValueAtTime(783.99, now + 0.24);
+                osc.frequency.setValueAtTime(1046.50, now + 0.36);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+                osc.start(now);
+                osc.stop(now + 0.6);
+            }
+        }
+
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('sound-icon');
+            const button = document.getElementById('sound-btn');
+            if (soundEnabled) {
+                icon.className = 'fa-solid fa-volume-high';
+                button.title = 'Matikan musik dan efek suara';
+                button.setAttribute('aria-label', button.title);
+                playSound('click');
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-slate-500';
+                button.title = 'Nyalakan musik dan efek suara';
+                button.setAttribute('aria-label', button.title);
+                document.getElementById('background-music').pause();
+                stopAudioEffects();
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        /* SLIDE NAVIGATION LOGIC */
+        function goToSlide(slideNum) {
+            playSound('click');
+            // Validate identity if trying to skip slide 2
+            if (slideNum > 2 && (!studentData.nama || !studentData.kelas)) {
+                alert("Harap lengkapi Identitas Peserta Didik pada Slide 2 terlebih dahulu!");
+                goToSlide(2);
+                return;
+            }
+
+            document.querySelectorAll('.slide-content').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`slide-${slideNum}`).classList.remove('hidden');
+
+            currentSlide = slideNum;
+
+            const avatarCompanion = document.getElementById('avatar-companion');
+            if (slideNum >= 3 && slideNum <= 5) {
+                document.getElementById('avatar-companion-image').src = `asets/AVT${studentData.avatar}.png`;
+                avatarCompanion.classList.remove('hidden');
+                document.getElementById('app-viewport').classList.add('avatar-companion-active');
+            } else {
+                avatarCompanion.classList.add('hidden');
+                document.getElementById('app-viewport').classList.remove('avatar-companion-active');
+            }
+
+            // Slide Specific Actions
+            if (slideNum === 5) {
+                initGamePart1();
+                initGamePart2();
+                initGamePart3();
+            } else if (slideNum === 6) {
+                renderCertificate();
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < 6) goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) goToSlide(currentSlide - 1);
+        }
+
+        /* SLIDE 2: IDENTITAS MURID */
+        function selectAvatar(id) {
+            studentData.avatar = id;
+            document.querySelectorAll('.avatar-option').forEach((el, idx) => {
+                if (idx + 1 === id) {
+                    el.classList.add('border-emerald-500');
+                    el.classList.remove('border-slate-700');
+                } else {
+                    el.classList.remove('border-emerald-500');
+                    el.classList.add('border-slate-700');
+                }
+            });
+            playSound('click');
+        }
+
+        function saveStudentIdentity(e) {
+            e.preventDefault();
+            studentData.nama = document.getElementById('input-nama').value.trim();
+            studentData.kelas = document.getElementById('input-kelas').value.trim();
+            studentData.sekolah = document.getElementById('input-sekolah').value.trim();
+
+            if (studentData.nama && studentData.kelas && studentData.sekolah) {
+                playSound('correct');
+                goToSlide(3);
+            }
+        }
+
+        /* SLIDE 4: MATERIAL INTERACTIVES */
+        function switchMaterialTab(tabId) {
+            playSound('click');
+            document.querySelectorAll('.mat-tab-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.mat-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-500', 'text-slate-950', 'font-bold');
+                btn.classList.add('bg-slate-900', 'text-slate-300', 'font-medium');
+            });
+
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.classList.remove('bg-slate-900', 'text-slate-300', 'font-medium');
+            activeBtn.classList.add('bg-emerald-500', 'text-slate-950', 'font-bold');
+        }
+
+        function toggleCardDetail(card) {
+            playSound('click');
+            const detail = card.querySelector('.detail-text');
+            if (detail) {
+                detail.classList.toggle('hidden');
+            }
+        }
+
+        /* ================= SLIDE 5: GIM EDUKASI LOGIC ================= */
+
+        let pgQuestions = [
+            {
+                q: "1. Kegiatan ilmiah yang dilakukan secara sistematis untuk memecahkan masalah fenomena geosfer dengan pendekatan geografi disebut...",
+                options: ["Studi Lingkungan", "Penelitian Geografi", "Sistem Informasi Geografi", "Pemetaan Wilayah"],
+                answer: 1,
+                exp: "Penelitian Geografi berfokus pada analisis fenomena geosfer dengan pendekatan keruangan, ekologi, dan kompleks wilayah."
+            },
+            {
+                q: "2. Penelitian geografi yang bertujuan untuk mendalami fenomena geosfer baru yang belum banyak diketahui orang disebut penelitian...",
+                options: ["Deskriptif", "Eksplanatif", "Eksploratif", "Eksperimen"],
+                answer: 2,
+                exp: "Penelitian Eksploratif bertujuan mendalami atau menggali fenomena geosfer baru yang belum banyak diketahui."
+            },
+            {
+                q: "3. Manakah di bawah ini yang merupakan ciri khas metode penelitian KUANTITATIF?",
+                options: ["Data dalam bentuk narasi wawancara", "Menggunakan data statistik dan angka", "Deskripsi mendalam tentang sejarah lokal", "Pengamatan kualitatif tanpa pengukuran"],
+                answer: 1,
+                exp: "Metode kuantitatif mengolah data berbentuk angka dan analisis statistik."
+            },
+            {
+                q: "4. Tahapan awal yang paling menentukan kualitas sebuah penelitian geografi adalah...",
+                options: ["Menyusun Laporan", "Merumuskan Pertanyaan & Masalah Penelitian", "Mengolah Data Citra Satelit", "Menarik Kesimpulan"],
+                answer: 1,
+                exp: "Penelitian ilmiah yang berkualitas berawal dari perumusan masalah dan pertanyaan penelitian yang spesifik."
+            },
+            {
+                q: "5. Menguji hubungan sebab-akibat dari alih fungsi lahan terhadap banjir merupakan contoh tujuan penelitian...",
+                options: ["Eksplanatif", "Eksploratif", "Studi Pustaka", "Survei Deskriptif"],
+                answer: 0,
+                exp: "Penelitian Eksplanatif bertujuan menemukan hubungan sebab-akibat dan menguji hipotesis."
+            }
+        ];
+
+        let currentPgIdx = 0;
+        let pgScoreTotal = 0;
+
+        function switchGameMode(mode) {
+            playSound('click');
+            document.querySelectorAll('.game-mode-panel').forEach(p => p.classList.add('hidden'));
+            document.getElementById(`game-mode-${mode}`).classList.remove('hidden');
+
+            document.querySelectorAll('.game-tab-btn').forEach(b => {
+                b.classList.remove('bg-emerald-500', 'text-slate-950', 'font-bold');
+                b.classList.add('bg-slate-900', 'text-slate-300', 'font-medium');
+            });
+
+            const activeBtn = document.getElementById(`game-tab-${mode}`);
+            activeBtn.classList.remove('bg-slate-900', 'text-slate-300', 'font-medium');
+            activeBtn.classList.add('bg-emerald-500', 'text-slate-950', 'font-bold');
+        }
+
+        /* GAME PART 1: MCQ */
+        function initGamePart1() {
+            currentPgIdx = 0;
+            pgScoreTotal = 0;
+            renderPgQuestion();
+        }
+
+        function renderPgQuestion() {
+            if (currentPgIdx >= pgQuestions.length) {
+                document.getElementById('pg-question-text').innerText = "ðŸŽ‰ Kamu telah menyelesaikan Part 1 (Pilihan Ganda)! Silakan lanjut ke Part 2.";
+                document.getElementById('pg-options-container').innerHTML = '';
+                document.getElementById('pg-counter').innerText = 'Selesai!';
+                return;
+            }
+
+            const q = pgQuestions[currentPgIdx];
+            document.getElementById('pg-counter').innerText = `Soal ${currentPgIdx + 1} dari ${pgQuestions.length}`;
+            document.getElementById('pg-question-text').innerText = q.q;
+
+            const feedback = document.getElementById('pg-feedback');
+            feedback.className = 'hidden p-3 rounded-xl text-xs font-semibold';
+
+            const optsContainer = document.getElementById('pg-options-container');
+            optsContainer.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `choice-tone-${(idx % 6) + 1} p-3 rounded-xl bg-slate-900 border border-slate-700 hover:border-emerald-500 text-left text-xs font-medium text-slate-200 transition`;
+                btn.innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+                btn.onclick = () => answerPg(idx);
+                optsContainer.appendChild(btn);
+            });
+        }
+
+        function answerPg(selectedIdx) {
+            const q = pgQuestions[currentPgIdx];
+            const optionButtons = [...document.querySelectorAll('#pg-options-container button')];
+            if (!optionButtons[selectedIdx] || optionButtons[selectedIdx].disabled) return;
+
+            optionButtons.forEach((button, index) => {
+                button.disabled = true;
+                if (index === q.answer) button.classList.add('answer-correct');
+            });
+            if (selectedIdx !== q.answer) optionButtons[selectedIdx].classList.add('answer-incorrect');
+
+            const feedback = document.getElementById('pg-feedback');
+            feedback.classList.remove('hidden');
+
+            if (selectedIdx === q.answer) {
+                playAudioEffect('correct-answer-sound');
+                pgScoreTotal += 7; // 5 x 7 = 35 max
+                feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Benar! ${q.exp}`;
+            } else {
+                playAudioEffect('wrong-answer-sound');
+                feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-400 border border-rose-500/30';
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1"></i> Kurang tepat. ${q.exp}`;
+            }
+
+            scores.pg = pgScoreTotal;
+            updateLiveTotalScore();
+
+            setTimeout(() => {
+                currentPgIdx++;
+                renderPgQuestion();
+            }, 1800);
+        }
+
+        /* GAME PART 2: MATCHING PAIRS */
+        let selectedMatchLeft = null;
+        let matchedPairsCount = 0;
+
+        const matchConcepts = [
+            { id: 1, text: "Eksploratif" },
+            { id: 2, text: "Studi Kasus" },
+            { id: 3, text: "Eksplanatif" },
+            { id: 4, text: "Kuantitatif" }
+        ];
+
+        const matchDefinitions = [
+            { id: 3, text: "Menguji hubungan sebab-akibat antarvariabel" },
+            { id: 1, text: "Menggali fenomena geosfer baru yang belum diketahui" },
+            { id: 4, text: "Penelitian berbasis angka & analisis statistik" },
+            { id: 2, text: "Penelitian mendalam pada lokasi / kasus spesifik" }
+        ];
+
+        function initGamePart2() {
+            matchedPairsCount = 0;
+            selectedMatchLeft = null;
+
+            const leftCol = document.getElementById('match-left-col');
+            const rightCol = document.getElementById('match-right-col');
+            leftCol.innerHTML = '';
+            rightCol.innerHTML = '';
+
+            matchConcepts.forEach(c => {
+                const card = document.createElement('div');
+                card.id = `match-left-${c.id}`;
+                card.className = `choice-tone-${c.id} p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 cursor-pointer hover:border-cyan-400 transition flex items-center justify-between`;
+                card.innerText = c.text;
+                card.onclick = () => selectMatchLeft(c.id);
+                leftCol.appendChild(card);
+            });
+
+            matchDefinitions.forEach(d => {
+                const card = document.createElement('div');
+                card.id = `match-right-${d.id}`;
+                card.className = `choice-tone-${d.id} p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs font-medium text-slate-300 cursor-pointer hover:border-cyan-400 transition`;
+                card.innerText = d.text;
+                card.onclick = () => selectMatchRight(d.id);
+                rightCol.appendChild(card);
+            });
+        }
+
+        function selectMatchLeft(id) {
+            playSound('click');
+            selectedMatchLeft = id;
+            document.querySelectorAll('#match-left-col > div').forEach(el => {
+                el.classList.remove('border-cyan-400', 'bg-cyan-950/40');
+                el.classList.remove('match-selected');
+            });
+            const active = document.getElementById(`match-left-${id}`);
+            active.classList.add('border-cyan-400', 'bg-cyan-950/40', 'match-selected');
+        }
+
+        function selectMatchRight(id) {
+            if (!selectedMatchLeft) return;
+
+            const leftCard = document.getElementById(`match-left-${selectedMatchLeft}`);
+            const rightCard = document.getElementById(`match-right-${id}`);
+
+            if (selectedMatchLeft === id) {
+                playAudioEffect('correct-answer-sound');
+                leftCard.className = 'p-3 rounded-xl bg-emerald-950/50 border-2 border-emerald-500 text-xs font-bold text-emerald-300 pointer-events-none flex items-center justify-between';
+                rightCard.className = 'p-3 rounded-xl bg-emerald-950/50 border-2 border-emerald-500 text-xs font-bold text-emerald-300 pointer-events-none';
+                
+                leftCard.innerHTML += ' <i class="fa-solid fa-check text-emerald-400"></i>';
+                matchedPairsCount++;
+                scores.match += 8.75; // 4 x 8.75 = 35 max
+
+                if (matchedPairsCount === 4) scores.match = 35;
+                updateLiveTotalScore();
+            } else {
+                playAudioEffect('wrong-answer-sound');
+                leftCard.classList.add('match-wrong-choice');
+                rightCard.classList.add('match-wrong-choice');
+                setTimeout(() => {
+                    leftCard.classList.remove('match-wrong-choice');
+                    rightCard.classList.remove('match-wrong-choice');
+                }, 800);
+            }
+
+            selectedMatchLeft = null;
+            document.querySelectorAll('#match-left-col > div').forEach(el => {
+                el.classList.remove('border-cyan-400', 'bg-cyan-950/40');
+            });
+        }
+
+        /* GAME PART 3: CLASSIFICATION */
+        let selectedCatItem = null;
+
+        const catDeckItems = [
+            { id: 'c1', text: 'Eksploratif', category: 'tujuan' },
+            { id: 'c2', text: 'Studi Kasus', category: 'metode_pelaksanaan' },
+            { id: 'c3', text: 'Deskriptif', category: 'tujuan' },
+            { id: 'c4', text: 'Kualitatif', category: 'bentuk_data' },
+            { id: 'c5', text: 'Survei', category: 'metode_pelaksanaan' },
+            { id: 'c6', text: 'Kuantitatif', category: 'bentuk_data' }
+        ];
+
+        function initGamePart3() {
+            selectedCatItem = null;
+            const deck = document.getElementById('cat-items-deck');
+            deck.innerHTML = '';
+
+            document.getElementById('bucket-tujuan').innerHTML = '';
+            document.getElementById('bucket-metode_pelaksanaan').innerHTML = '';
+            document.getElementById('bucket-bentuk_data').innerHTML = '';
+
+            catDeckItems.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.id = `cat-item-${item.id}`;
+                card.className = `choice-tone-${(index % 6) + 1} px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-xs font-bold text-slate-200 cursor-pointer hover:border-amber-400 transition`;
+                card.innerText = item.text;
+                card.onclick = () => selectCatItem(item);
+                deck.appendChild(card);
+            });
+        }
+
+        function selectCatItem(item) {
+            playSound('click');
+            selectedCatItem = item;
+            document.querySelectorAll('#cat-items-deck > div').forEach(el => {
+                el.classList.remove('border-amber-400', 'bg-amber-950/50', 'cat-selected');
+            });
+            const active = document.getElementById(`cat-item-${item.id}`);
+            if (active) active.classList.add('border-amber-400', 'bg-amber-950/50', 'cat-selected');
+            document.querySelectorAll('.cat-bucket').forEach(bucket => bucket.classList.remove('bucket-target'));
+            document.getElementById(`bucket-${item.category}`).closest('.cat-bucket').classList.add('bucket-target');
+        }
+
+        function dropCategoryItem(targetBucket) {
+            if (!selectedCatItem) return;
+
+            const card = document.getElementById(`cat-item-${selectedCatItem.id}`);
+            if (!card) return;
+
+            if (selectedCatItem.category === targetBucket) {
+                playAudioEffect('correct-answer-sound');
+                const bucket = document.getElementById(`bucket-${targetBucket}`);
+                card.className = 'px-2.5 py-1.5 rounded-md bg-emerald-500/20 border border-emerald-500/40 text-[11px] font-bold text-emerald-300';
+                bucket.appendChild(card);
+
+                scores.cat += 5; // 6 x 5 = 30 max
+                updateLiveTotalScore();
+            } else {
+                playAudioEffect('wrong-answer-sound');
+                card.classList.add('cat-incorrect');
+                setTimeout(() => card.classList.remove('cat-incorrect'), 800);
+            }
+
+            card.classList.remove('cat-selected');
+            document.querySelectorAll('.cat-bucket').forEach(bucket => bucket.classList.remove('bucket-target'));
+            selectedCatItem = null;
+        }
+
+        function updateLiveTotalScore() {
+            const total = Math.round(scores.pg + scores.match + scores.cat);
+            document.getElementById('live-total-score').innerText = `${total} / 100`;
+        }
+
+        function finishGameAndShowCertificate() {
+            playSectionCompleteAfterButton();
+            goToSlide(6);
+        }
+
+        /* ================= SLIDE 6: CERTIFICATE RENDERING ================= */
+        function renderCertificate() {
+            const finalScore = Math.min(100, Math.round(scores.pg + scores.match + scores.cat));
+
+            document.getElementById('cert-student-name').innerText = studentData.nama || 'Nama Peserta Didik';
+            document.getElementById('cert-student-class').innerText = studentData.kelas || 'X-1';
+            document.getElementById('cert-student-school').innerText = studentData.sekolah || 'SMA Negeri';
+            document.getElementById('cert-final-score').innerText = finalScore;
+
+            let predikat = "SANGAT BAIK";
+            if (finalScore < 60) predikat = "PERLU TINGKATKAN";
+            else if (finalScore < 75) predikat = "CUKUP BAIK";
+            else if (finalScore < 88) predikat = "BAIK";
+
+            document.getElementById('cert-predikat').innerText = predikat;
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('cert-date').innerText = dateStr;
+
+            // Trigger Confetti effect
+            if (window.confetti && finalScore >= 70) {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        function printCertificate() {
+            window.print();
+        }
+
+        function restartAll() {
+            scores = { pg: 0, match: 0, cat: 0 };
+            updateLiveTotalScore();
+            goToSlide(1);
+        }
+
+    </script>
+</body>
+</html>
